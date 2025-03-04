@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+        }
+       nav a {
+           color: white;
+           text-decoration: none;
+           padding: 10px 20px;
+           margin: 0 10px;
+           display: inline-block;
+           transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .category {
+            display: none;
+            padding-bottom: 50px;
+        }
+        .active {
+            display: block;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none; /* 처음에는 숨김 */
+            position: absolute;
+            background-color: #444;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px;
+            padding-bottom: 12px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block; /* 마우스를 올리면 메뉴가 나타남 */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #555; /* 마우스를 올린 링크에 배경색 */
+        }
+        .video-gallery {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* 화면 크기에 따라 자동으로 줄 바꿈을 하지 않음 */
+            gap: 10px; /* 비디오 간 간격 */
+            margin: 20px;
+        }
+        
+
+        .video-item {
+            text-align: center;
+        width: 19%; /* 한 줄에 5개의 비디오가 정확히 들어가도록 19%로 설정 */
+            box-sizing: border-box; /* padding이나 margin을 포함한 크기 계산 */
+        }
+
+        .video-item h3 {
+            margin-top: 10px; /* 비디오와 제목 사이 여백 */
+            font-size: 16px;
+            color: #333;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        font-size: 14px;
+        }
+        .dropdown-item {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+        display: block;
+        cursor: pointer;
+}
+
+/* 항목에 마우스를 올리면 배경색 변화 */
+.dropdown-item:hover {
+    background-color: #666;
+}
+        .category-container:hover .dropdown {
+    display: block;
+}
+
+/* 이미지 항목 스타일 */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px; /* 이미지 간의 간격 */
+    margin: 20px;
+}
+
+/* 이미지 항목 스타일 */
+.image-item {
+    width: 19%; /* 한 줄에 5개의 이미지를 정확히 맞추기 위해 19%로 설정 */
+    box-sizing: border-box; /* padding이나 margin을 포함한 크기 계산 */
+    text-align: center;
+}
+
+/* 이미지 크기 고정 설정 */
+.image-item img {
+    width: 100%; /* 부모 요소에 맞게 이미지 너비를 100%로 설정 */
+    height: auto; /* 비율에 맞게 높이를 자동으로 설정 */
+    max-width: 100%; /* 최대 너비를 100%로 설정해, 부모를 벗어나지 않도록 */
+    max-height: 240px; /* 최대 높이를 240px로 설정 */
+    object-fit: cover; /* 이미지 비율에 맞춰 자르기 (부족한 부분은 잘리게 됨) */
+    border-radius: 5px; /* 이미지 테두리 둥글게 */
+}
+
+/* 이미지 제목 스타일 */
+.image-item h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+        .modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 모달 이미지 */
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+/* 모달 닫기 버튼 */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #f1f1f1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 설명 텍스트 스타일 */
+#caption {
+    text-align: center;
+    color: #ddd;
+    padding: 10px;
+    font-size: 20px;
+}
+    </style>
+</head>
+<body>
+    <header>포트폴리오 웹사이트</header>
+    <nav>
+        
+    <div class="dropdown">
+        <a href="#" onclick="showCategory('video')">영상</a>
+        <div class="dropdown-content">
+            <a href="#" onclick="showCategory('motion')">모션그래픽</a>
+            <a href="#" onclick="showCategory('typography')">타이포그래픽</a>
+            <a href="#" onclick="showCategory('pp-video')">프리미어프로</a>
+            <a href="#" onclick="showCategory('ae-video')">애프터이펙트</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="#" onclick="showCategory('design')">디자인</a>
+    <!-- 여기서 .dropdown-content 안에 항목들을 넣음 -->
+        <div class="dropdown-content">
+            <a href="#" onclick="showCategory('photoshop')">포토샵</a>
+            <a href="#" onclick="showCategory('illustrator')">일러스트레이터</a>
+            <a href="#" onclick="showCategory('3d-design')">3D디자인</a>
+            <a href="#" onclick="showCategory('other-design')">기타 디자인</a>
+        </div>
+    </div>
+        <a href="#" onclick="showCategory('art')">그림</a>
+        <a href="#" onclick="showCategory('animation')">애니메이션</a>
+        <a href="#" onclick="showCategory('game')">게임</a>
+        
+    </nav>
+    <div class="container">
+        <div id="video" class="category active">
+            <h2>영상 포트폴리오</h2><br>
+            <div class="video-gallery">
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div id="motion" class="category">
+            <h2>모션그래픽 포트폴리오</h2><br>
+            <div class="video-gallery">
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            </div>
+        </div> <!--영상 모션그래픽-->
+        
+        
+        
+        <div id="typography" class="category">
+            <h2>타이포그래픽 포트폴리오</h2><br>
+            <div class="video-gallery">
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            </div>
+        </div> <!--영상 타이포-->
+        
+        
+        
+        <div id="pp-video" class="category">
+            <h2>프리미어프로 영상 포트폴리오</h2><br>
+            <div class="video-gallery">
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/vmfhwprxm.mp4" type="video/mp4">
+                    </video>
+                    <h3>일본어 영상</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/vjd.mp4" type="video/mp4">
+                    </video>
+                    <h3>쾅하는 타이틀</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/tite.mp4" type="video/mp4">
+                    </video>
+                    <h3>타이틀, 서브타이틀 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/dksdl.mp4" type="video/mp4">
+                    </video>
+                    <h3>텍스트 안이 차오르는 효과</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/vpdlwl.mp4" type="video/mp4">
+                    </video>
+                    <h3>페이지 넘기는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/Whcdkekslsms.mp4" type="video/mp4">
+                    </video>
+                    <h3>텍스트가 쫓아다니는 </h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/rkdwh.mp4" type="video/mp4">
+                    </video>
+                    <h3>특정 대상을 강조하는 효과</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/wjsghks.mp4" type="video/mp4">
+                    </video>
+                    <h3>지나가면서 영상이 보여지는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/mozaik.mp4" type="video/mp4">
+                    </video>
+                    <h3>텍스트 모자이크 소리 변환 사선</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/pass.mp4" type="video/mp4">
+                    </video>
+                    <h3>패스 활용</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/new%20year.mp4" type="video/mp4">
+                    </video>
+                    <h3>치킨누들수프 제이홉 인트로</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/penguin.mp4" type="video/mp4">
+                    </video>
+                    <h3>지워지는</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/down.mp4" type="video/mp4">
+                    </video>
+                    <h3>카운트다운</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/kakaotalk.mp4" type="video/mp4">
+                    </video>
+                    <h3>카카오톡 문자</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/color%20matte.mp4" type="video/mp4">
+                    </video>
+                    <h3>컬러매트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/cromaki.mp4" type="video/mp4">
+                    </video>
+                    <h3>크로마키</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/text%20motion.mp4" type="video/mp4">
+                    </video>
+                    <h3>크리스탈 내는 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%9E%89%ED%81%AC.mp4" type="video/mp4">
+                    </video>
+                    <h3>잉크</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%9D%8C%EC%95%85%EC%97%90%20%EB%A7%9E%EC%B6%B0%20track%20matte.mp4" type="video/mp4">
+                    </video>
+                    <h3>음악에 맞춰 track matte</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%9B%90%EC%95%88%EC%97%90%20%EC%98%81%EC%83%81.mp4" type="video/mp4">
+                    </video>
+                    <h3>원 안에 영상</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%98%81%EC%83%81%ED%95%98%EA%B3%A0%20%EC%96%B4%EC%9A%B8%EB%A6%AC%EB%8A%94%20%EB%A7%88%ED%81%AC%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>맥심 광고(연습)</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%98%81%EC%83%81%EC%A0%84%ED%99%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상전환2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%98%81%EC%83%81%EC%9D%B4%20%EC%B0%A8%EC%98%A4%EB%A5%B4%EB%8A%94%20%ED%85%8D%EC%8A%A4%ED%8A%B8.mp4" type="video/mp4">
+                    </video>
+                    <h3>차오르는 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%98%81%EC%83%81%20%EC%95%88%EC%97%90%20%EC%9E%88%EB%8A%94%20%ED%85%8D%EC%8A%A4%ED%8A%B8.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 안에 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%98%81%EC%83%81%20%EA%B5%90%EC%B0%A8%20&%20%ED%99%95%EB%8C%80.mp4" type="video/mp4">
+                    </video>
+                    <h3>교차 확대</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%8B%A0%EB%AC%B8%EC%97%90%20%EC%98%81%EC%83%81%EC%9D%84%20%EB%B3%B4%EC%97%AC%EC%A3%BC%EB%8A%94%20%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>신문안에 영상</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%8B%9C%EB%84%A4%EB%A7%88%ED%8B%B1%20%EC%9D%B8%EC%85%89%EC%85%98%20%EC%9D%B8%ED%8A%B8%EB%A1%9C_1.mp4" type="video/mp4">
+                    </video>
+                    <h3>시네마틱인셉션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%8A%A4%ED%81%AC%EB%A1%A4%20%ED%83%80%EC%9D%B4%ED%8B%80.mp4" type="video/mp4">
+                    </video>
+                    <h3>스크롤타이틀</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%8A%A4%EB%83%85%20%EC%82%AC%EC%A7%84%20%EC%98%81%EC%83%81.mp4" type="video/mp4">
+                    </video>
+                    <h3>스냅사진</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%88%AB%EC%9E%90%EC%97%90%20%EB%A7%9E%EC%B6%B0%EC%84%9C%20%EC%9B%90%EC%9D%84%20%EC%B1%84%EC%9A%B0%EB%8A%94%20%ED%9A%A8%EA%B3%BC.mp4" type="video/mp4">
+                    </video>
+                    <h3>원 퍼센트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%88%A8%EC%9D%80%20%ED%85%8D%EC%8A%A4%ED%8A%B8%EA%B0%80%20%ED%8E%BC%EC%B3%90%EC%A7%80%EA%B8%B0%20.mp4" type="video/mp4">
+                    </video>
+                    <h3>숨은텍스트</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%83%89%EC%83%81%EB%B3%80%ED%99%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>색상변환2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%83%89%EC%83%81%EB%B0%94%EA%BE%B8%EA%B8%B0.mp4" type="video/mp4">
+                    </video>
+                    <h3>색상 변환</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/text%20motion.mp4" type="video/mp4">
+                    </video>
+                    <h3>상하좌우 교차</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EC%82%AC%EC%A7%84%20%EB%B9%9B%ED%9A%A8%EA%B3%BC.mp4" type="video/mp4">
+                    </video>
+                    <h3>사진 빛효과</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%B9%9B%ED%9A%A8%EA%B3%BC%20%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EB%A7%88%EC%8A%A4%ED%81%AC.mp4" type="video/mp4">
+                    </video>
+                    <h3>빛 효과 텍스트</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%B9%9B%EC%9D%B4%20%EC%A7%80%EB%82%98%EA%B0%80%EB%8A%94%20%ED%85%8D%EC%8A%A4%ED%8A%B8.mp4" type="video/mp4">
+                    </video>
+                    <h3>빛이 지나가는 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%B8%94%EB%A0%8C%EB%93%9C%20%EB%AA%A8%EB%93%9C.mp4" type="video/mp4">
+                    </video>
+                    <h3>블랜딩2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%B8%94%EB%9E%9C%EB%94%A9%EB%AA%A8%EB%93%9C%20%ED%99%9C%EC%9A%A9_1.mp4" type="video/mp4">
+                    </video>
+                    <h3>블랜딩</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%B2%88%EA%B0%9C.mp4" type="video/mp4">
+                    </video>
+                    <h3>번개</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>공익광고(연습)</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%A7%88%ED%81%AC%EB%AA%A8%EC%85%982.mp4" type="video/mp4">
+                    </video>
+                    <h3>마크모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%A7%88%EB%B8%94%20%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
+                    </video>
+                    <h3>마블 인트로</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%A1%9C%EB%94%A9%EB%B0%94.mp4" type="video/mp4">
+                    </video>
+                    <h3>로딩바</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%9E%9C%EB%8D%A4%ED%95%9C%20%ED%85%8D%EC%8A%A4%ED%8A%B8.mp4" type="video/mp4">
+                    </video>
+                    <h3>random text</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%92%A4%EC%A7%91%ED%9E%88%EB%8A%94%20%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>슈퍼맨(뒤집히는모션 활용)</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%8F%8B%EB%B3%B4%EA%B8%B0%20%EC%B2%98%EB%9F%BC%20%ED%99%95%EB%8C%80%EB%90%98%EB%8A%94%20%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>돋보기</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%8B%A4%EC%9D%8C%20%ED%99%94%EB%A9%B4%EC%9D%B4%20%EB%A8%BC%EC%A0%80%20%EB%B3%B4%EC%9D%B4%EB%8A%94%20%ED%99%94%EB%A9%B4%20%EB%AA%A8%EC%85%98.prproj.mp4" type="video/mp4">
+                    </video>
+                    <h3>화면 전환2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%85%B9%ED%99%94.mp4" type="video/mp4">
+                    </video>
+                    <h3>녹화</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EB%84%A4%EC%98%A8%EC%82%AC%EC%9D%B8_1.mp4" type="video/mp4">
+                    </video>
+                    <h3>네온사인</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B8%80%EB%A6%AC%EC%B9%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>글리치</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B7%B8%EB%A0%A4%EC%A7%80%EB%8A%94%20%EB%AA%A8%EC%85%98%20%EC%99%84%EC%84%B1.mp4" type="video/mp4">
+                    </video>
+                    <h3>그려지는</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B7%B8%EB%9E%98%ED%94%84.mp4" type="video/mp4">
+                    </video>
+                    <h3>그래프</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B7%B8%EB%9D%BC%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%99%80%EC%9D%B4%ED%94%84.mp4" type="video/mp4">
+                    </video>
+                    <h3>화면 전환</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B3%A8%EB%9D%BC%EB%93%84%EB%8B%A4%ED%81%90%20%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
+                    </video>
+                    <h3>골라듄다큐 인트로</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B2%BD%EB%A1%9C.mp4" type="video/mp4">
+                    </video>
+                    <h3>경로</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B0%95%EC%A1%B0%ED%95%98%EB%8A%94%20%ED%9A%A8%EA%B3%BC.mp4" type="video/mp4">
+                    </video>
+                    <h3>강조</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/%EA%B0%80%EC%9E%A5%EC%9E%90%EB%A6%AC.mp4" type="video/mp4">
+                    </video>
+                    <h3>가장자리</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/Mirror.mp4" type="video/mp4">
+                    </video>
+                    <h3>mirror</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/linear%20radial-.mp4" type="video/mp4">
+                    </video>
+                    <h3>linear</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/legacy2.mp4" type="video/mp4">
+                    </video>
+                    <h3>뉴스 Legacy</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/Legacy.mp4" type="video/mp4">
+                    </video>
+                    <h3>마이리틀텔레비전 Legacy</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/crop%203%EB%B6%84%ED%95%A0%20%EB%AA%A8%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>3분할</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/basic%203d%20%EC%9D%91%EC%9A%A92%20%EC%A1%B0%EB%AA%85%ED%9A%A8%EA%B3%BC.mp4" type="video/mp4">
+                    </video>
+                    <h3>3d 응용2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/basic%203d%20%EC%9D%91%EC%9A%A9.mp4" type="video/mp4">
+                    </video>
+                    <h3>3d 응용</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/pp/01-03%20%EC%9E%90%EB%A7%89%EC%9D%98%20%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98.mp4" type="video/mp4">
+                    </video>
+                    <h3>gif</h3>
+                </div>
+         </div>
+    </div> <!--영상 프리미어프로-->
+        
+        <div id="ae-video" class="category">
+            <h2>애프터이펙트 영상 포트폴리오</h2><br>
+            <div class="video-gallery">
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 5</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                    <h3>영상 제목 1</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/rjsanf.mp4" type="video/mp4">
+                    </video>
+                    <h3>건물</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dlalwl%20tlfflsej.mp4" type="video/mp4">
+                    </video>
+                    <h3>이미지 실린더</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/image%20motion.mp4" type="video/mp4">
+                    </video>
+                    <h3>이미지 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/fnak.mp4" type="video/mp4">
+                    </video>
+                    <h3>루마매트</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/tlfflsej.mp4" type="video/mp4">
+                    </video>
+                    <h3>바람에 날아가는 실린더</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/qlgodrl.mp4" type="video/mp4">
+                    </video>
+                    <h3>따라가는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/tjcl.mp4" type="video/mp4">
+                    </video>
+                    <h3>서치 이미지 효과</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/rainbow.mp4" type="video/mp4">
+                    </video>
+                    <h3>색상이 변하는 마스크 패스</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dkfRjqwlf.mp4" type="video/mp4">
+                    </video>
+                    <h3>알 껍질 벗겨지는 모션</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/qjrjzld.mp4" type="video/mp4">
+                    </video>
+                    <h3>버거킹 모핑 광고(연습)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dlalwlahvld3.mp4" type="video/mp4">
+                    </video>
+                    <h3>이미지 모핑3(얼굴)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dlalwlahvld2.mp4" type="video/mp4">
+                    </video>
+                    <h3>이미지 모핑2(국가)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dlalwl%20ahvld.mp4" type="video/mp4">
+                    </video>
+                    <h3>이미지 모핑1(사람)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/gyrhk.mp4" type="video/mp4">
+                    </video>
+                    <h3>효과가 마스크를 따라가는 효과</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/gksWhr.mp4" type="video/mp4">
+                    </video>
+                    <h3>한쪽 귀로 들어갔다 나오는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/rmfTl.mp4" type="video/mp4">
+                    </video>
+                    <h3>손으로 글씨 쓰는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/rmsp.mp4" type="video/mp4">
+                    </video>
+                    <h3>그네 타는 텍스트   </h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/wjsrlvkwkd.mp4" type="video/mp4">
+                    </video>
+                    <h3>전기 파장 텍스트(saber)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dkfvk.mp4" type="video/mp4">
+                    </video>
+                    <h3>알파매트</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/tmxmfpcld.mp4" type="video/mp4">
+                    </video>
+                    <h3>스트레칭 타이틀</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/dheldh.mp4" type="video/mp4">
+                    </video>
+                    <h3>오디오 스펙트럼 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/qkdxks.mp4" type="video/mp4">
+                    </video>
+                    <h3>방탄 세비지 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/aktmzm.mp4" type="video/mp4">
+                    </video>
+                    <h3>마스크를 그려지게 하는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/camera.mp4" type="video/mp4">
+                    </video>
+                    <h3>카메라 3d 텍스트 +조명</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/wkdmaahdma.mp4" type="video/mp4">
+                    </video>
+                    <h3>텍스트 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/tjs%20xmflavotm.mp4" type="video/mp4">
+                    </video>
+                    <h3>선이 그려지는 트림패스</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/qlc%20text.mp4" type="video/mp4">
+                    </video>
+                    <h3>빛 효과 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/SABER%20TEXT.mp4" type="video/mp4">
+                    </video>
+                    <h3>불타오르는 텍스트(saber)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/3D%20TEXT.mp4" type="video/mp4">
+                    </video>
+                    <h3>3D TEXT</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/spdhstkdls.mp4" type="video/mp4">
+                    </video>
+                    <h3>네온사인(saber)</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/enlwlqglsms%20text.mp4" type="video/mp4">
+                    </video>
+                    <h3>뒤집히는 모션</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/animate.mp4" type="video/mp4">
+                    </video>
+                    <h3>애니메이트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/vhffld%20text.mp4" type="video/mp4">
+                    </video>
+                    <h3>폴링 텍스트</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion11.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion11</h3>
+                </div>
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion10.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion10</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion9.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion9</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion8.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion8</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion7.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion7</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion6.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion6</h3>
+                </div>
+                
+            
+            
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion5.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion5</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion4.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion4</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion3.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion3</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion2.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion2</h3>
+                </div>
+                <div class="video-item">
+                    <video width="320" height="240" controls>
+                        <source src="video/ae/text%20motion.mp4" type="video/mp4">
+                    </video>
+                    <h3>text motion</h3>
+                </div>
+         </div>
+    </div> <!--영상 애프터이펙트-->
+        
+        
+        
+        
+        <div id="design" class="category">
+        <h2>디자인 포트폴리오</h2><br>
+        <div class="image-gallery">
+            <div class="image-item">
+            <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+            <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+        </div>
+    </div> <!--디자인-->
+        
+        
+    <div id="photoshop" class="category">
+        <h2>포토샵 포트폴리오</h2><br>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20select%20.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>select</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EA%B0%80%EB%B0%9C.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>가발</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EA%B5%AD%EA%B8%B0.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>국기</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EB%AC%BC%EC%95%88%EA%B0%9C%20%EA%B5%AC%EB%A6%84.jpg" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>안개 구름</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EB%AC%BC%ED%8D%BC%EC%A7%90.jpg" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>물퍼짐</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EB%B9%84%ED%9A%A8%EA%B3%BC.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>Rain Effects</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%EC%96%BC%EA%B5%B4%20%EC%9C%A4%EA%B3%BD.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>얼굴 윤곽</h3> 
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/1-2%20%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>포스터</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-22%20%EB%B8%8C%EB%9E%9C%EB%93%9C%20%EB%AA%A8%EB%93%9C%20%EB%A9%94%EC%9D%B4%ED%81%AC%EC%97%852.jpg" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>메이크업</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/photoshop/12-22%20%EB%B8%94%EB%9E%9C%EB%93%9C%20%EB%AA%A8%EB%93%9C%20%EB%A9%94%EC%9D%B4%ED%81%AC%EC%97%85.jpg" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>메이크업</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-26%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%A1%B0%EC%A0%95.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>이미지 조정</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-26%20%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%B8%8C%EB%9F%AC%EC%89%AC%20%EA%BD%83.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>히스토리 브러쉬</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-27%20patch%20%EB%9E%91%20aware%202.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>patch aware</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-27%20patch.jpg" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>patch</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/photoshop/12-27%20%ED%81%B4%EB%A1%A0%EC%8A%A4%ED%83%AC%ED%94%842.jpg" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>클론 스탬프</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-28%20Fill%20pattern%20%EB%8F%88%20%EB%B3%B4%EC%A0%95.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>돈 보정</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-27%20%EC%98%81%EC%83%81%20%EC%86%8C%EC%8A%A4%20%EB%A7%8C%EB%93%A4%EA%B8%B0.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>지우기</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-28%20pattern%20preview%20%ED%86%A0%EB%81%BC%EA%B1%B0%EB%B6%81%EC%9D%B4%EA%B3%B0.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>패턴 프리뷰</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-28%20%EB%B8%94%EB%9E%9C%EB%8D%94%203.jpg" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>블랜더</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/photoshop/12-28%20%EB%B8%94%EB%9E%9C%EB%8D%94%20%EB%8F%84%EB%A1%9C.jpg" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>블랜더</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/12-28%20%EB%B8%94%EB%9E%9C%EB%8D%94.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>블랜더</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/8%20pa.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>패턴 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/9%20mu.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>무지개 합성</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/photoshop/9%20bozang.jpg" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>보정</h3>
+            </div>
+        </div>
+    </div> <!--디자인 포토샵-->
+    <div id="illustrator" class="category">
+        <h2>일러스트레이터 포트폴리오</h2><br>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="design/illustrator/1.jpg" alt="캐릭터" width="320" height="240" onclick="openModal(this)">
+                <h3>캐릭터</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/illustrator/Artboard%201.png" alt="투게더" width="320" height="240" onclick="openModal(this)">
+                <h3>투게더</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EA%B5%90%ED%86%B5%ED%91%9C%EC%A7%80%ED%8C%90%20%ED%94%BD%ED%86%A0%EA%B7%B8%EB%9E%A8.jpg" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>픽토그램</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EA%B7%B8%EB%A6%BC2.png" alt="art" width="320" height="240" onclick="openModal(this)">
+                <h3>art</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EB%A1%9C%EB%A0%89%EC%8A%A4%EC%86%90%EB%AA%A9%EC%8B%9C%EA%B3%84.jpg" alt="롤렉스" width="320" height="240" onclick="openModal(this)">
+                <h3>롤렉스</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EB%AF%B8%ED%82%A4%EB%A7%88%EC%9A%B0%EC%8A%A4.jpg" alt="미키마우스" width="320" height="240" onclick="openModal(this)">
+                <h3>미키마우스</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/illustrator/%EB%BF%8C%EA%B9%8C%20%EA%B3%B5.jpg" alt="공" width="320" height="240" onclick="openModal(this)">
+                <h3>공</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EB%BF%8C%EA%B9%8C%20%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD.jpg" alt="뿌까 도라에몽" width="320" height="240" onclick="openModal(this)">
+                <h3>뿌까 도라에몽</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%95%BD%EB%8F%84.jpg" alt="약도" width="320" height="240" onclick="openModal(this)">
+                <h3>약도</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%96%B8%EB%8D%95%20copy.png" alt="언덕" width="320" height="240" onclick="openModal(this)">
+                <h3>언덕</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%97%B0%ED%95%84.png" alt="연필" width="320" height="240" onclick="openModal(this)">
+                <h3>연필</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/illustrator/%EC%A1%B0%EB%A5%98.jpg" alt="조류" width="320" height="240" onclick="openModal(this)">
+                <h3>조류</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%B9%98%EC%A6%88.jpg" alt="치즈" width="320" height="240" onclick="openModal(this)">
+                <h3>치즈</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%B9%B4%EB%93%9C.jpg" alt="카드" width="320" height="240" onclick="openModal(this)">
+                <h3>카드</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%ED%94%BD%ED%86%A0%EA%B7%B8%EB%9E%A8.jpg" alt="픽토그램" width="320" height="240" onclick="openModal(this)">
+                <h3>픽토그램</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/illustrator/%EC%B9%B4%EC%B9%B4%EC%98%A4.jpg" alt="카카오" width="320" height="240" onclick="openModal(this)">
+                <h3>카카오</h3>
+            </div>
+        </div>
+    </div> <!--디자인 일러스트-->
+    <div id="3d-design" class="category">
+        <h2>3D디자인 포트폴리오</h2><br>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+        </div>
+    </div> <!--디자인 3d-->
+    <div id="other-design" class="category">
+        <h2>기타 디자인 포트폴리오</h2><br>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+            
+            
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 1</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 2</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 3</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 4</h3>
+            </div>
+            <div class="image-item">
+                <img src="design/black.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                <h3>디자인 제목 5</h3>
+            </div>
+        </div>
+    </div> <!--기타 디자인-->
+        
+        <div id="art" class="category">
+            <h2>그림 포트폴리오</h2><br>
+            <div class="image-gallery">
+                <div class="image-item" >
+                    <img src="art/copy1.jpg" alt="디자인 1" width="320" height="240" onclick="openModal(this)">
+                    <h3>모작(그림)</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/copy0.png" alt="디자인 2" width="320" height="240" onclick="openModal(this)">
+                    <h3>세기말데빌(웹툰) 모작</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/black%20clover%20copy.jpg" alt="디자인 3" width="320" height="240" onclick="openModal(this)">
+                    <h3>블랙클로버(애니) 모작</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/black%20clover%20copy2.jpg" alt="디자인 4" width="320" height="240" onclick="openModal(this)">
+                    <h3>블랙클로버(애니) 모작</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/black%20clover%20copy3.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                    <h3>블랙클로버(애니) 모작</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/black%20clover%20copy4.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                    <h3>블랙클로버(애니) 모작</h3>
+                </div>
+                <div class="image-item">
+                    <img src="art/copy2.png" alt="디자인 5" width="320" height="240" onclick="openModal(this)">
+                    <h3>모작(그림)</h3>
+                </div>
+                
+            </div>
+    </div> <!--그림-->
+        
+        <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+    <div id="caption"></div>
+</div> <!--그림 확대 기능-->
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    <footer>
+        <p>&copy; 2025 Your Company Name. All rights reserved.</p>
+    </footer>
+    <script>
+        function showCategory(category) {
+        let categories = document.querySelectorAll('.category');
+         categories.forEach(cat => cat.classList.remove('active'));  // 모든 카테고리 숨기기
+        document.getElementById(category).classList.add('active');  // 클릭된 카테고리만 표시
+        } 
+        function openModal(img) {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImg");
+    var caption = document.getElementById("caption");
+    
+    // 이미지 src와 제목 설정
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    caption.innerHTML = img.alt; // 이미지 설명을 이미지 alt 속성으로 설정
+            
+}
+         window.onload = function() {
+        // 모든 video 요소 선택
+        var videos = document.querySelectorAll('video');
+        
+        // 각 비디오의 소리 크기를 설정
+        videos.forEach(function(video) {
+            video.volume = 0.1; // 소리 크기를 10%로 설정
+        });
+ };
+// 모달 닫기
+function closeModal() {
+    var modal = document.getElementById("imageModal");
+    modal.style.display = "none";
+}
+    </script>
+</body>
+</html>

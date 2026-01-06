@@ -11,13 +11,13 @@
        1. CORE VARIABLES & RESET
        ========================================= */
     :root {
-      --bg: #fafafa;         /* 전체 배경색 */
-      --surface: #ffffff;    /* 카드 및 사이드바 배경 */
-      --muted: #9aa0a6;      /* 보조 텍스트 */
-      --accent: #0b74de;     /* 강조 색상 (파랑) */
-      --gap: 24px;           /* 그리드 간격 */
-      --sidebar-w: 260px;    /* 사이드바 너비 */
-      --radius: 12px;        /* 둥근 모서리 */
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --muted: #9aa0a6;
+      --accent: #0b74de;
+      --gap: 24px;
+      --sidebar-w: 260px;
+      --radius: 12px;
       --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
       --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     }
@@ -31,10 +31,9 @@
       color: #111;
       display: flex;
       min-height: 100vh;
-      overflow-x: hidden; /* 가로 스크롤 방지 */
+      overflow-x: hidden; 
     }
 
-    /* 기본 요소 초기화 */
     a { text-decoration: none; color: inherit; cursor: pointer; }
     ul, li { list-style: none; padding: 0; margin: 0; }
     button { border: none; background: none; cursor: pointer; font-family: inherit; }
@@ -53,9 +52,9 @@
       flex-direction: column;
       padding: 40px 24px;
       overflow-y: auto;
-      z-index: 50;
+      z-index: 50; /* PC에서는 적당한 높이 */
       transition: transform 0.3s ease;
-      flex-shrink: 0; /* 사이드바 줄어듦 방지 */
+      flex-shrink: 0;
     }
 
     .brand {
@@ -88,11 +87,7 @@
       margin-bottom: 4px;
     }
 
-    .nav-item:hover {
-      background: #f4f4f5;
-      color: #000;
-    }
-
+    .nav-item:hover { background: #f4f4f5; color: #000; }
     .nav-item.active {
       background: rgba(11, 116, 222, 0.08);
       color: var(--accent);
@@ -135,6 +130,13 @@
       padding-top: 20px;
     }
 
+    /* 사이드바 닫기 버튼 (모바일 전용) */
+    .sidebar-close {
+        display: none;
+        position: absolute; top: 15px; right: 15px;
+        font-size: 24px; color: #666;
+    }
+
     /* =========================================
        3. MAIN CONTENT
        ========================================= */
@@ -159,11 +161,10 @@
     }
 
     /* =========================================
-       4. GRID SYSTEM & CARDS (FIXED)
+       4. GRID SYSTEM & CARDS
        ========================================= */
     .grid {
       display: grid;
-      /* 반응형 그리드 */
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 24px;
       padding-bottom: 60px;
@@ -173,195 +174,122 @@
       background: var(--surface);
       border-radius: var(--radius);
       box-shadow: var(--card-shadow);
-      overflow: hidden; /* 내부 요소 삐져나옴 방지 핵심 */
+      overflow: hidden;
       position: relative;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      aspect-ratio: 4 / 3; /* 카드 비율 고정 */
-      isolation: isolate; /* z-index 컨텍스트 분리 */
+      aspect-ratio: 4 / 3;
+      isolation: isolate;
     }
 
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-      z-index: 2; /* 호버 시 약간 위로 */
+      z-index: 2;
     }
 
-    /* 미디어 래퍼: 카드 안을 가득 채움 */
     .media-wrap {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      background: #eee;
+      width: 100%; height: 100%; position: relative; background: #eee;
     }
 
-    /* 이미지 및 비디오 공통 스타일: 절대 위치로 겹침 방지 */
     .media-wrap img, 
     .media-wrap video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+      width: 100%; height: 100%;
+      object-fit: cover;
       display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: absolute; top: 0; left: 0;
       border: none;
     }
 
-    /* 호버 비디오 (기본 숨김) */
     .card-video {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1; /* 썸네일보다 위 */
-      pointer-events: none; /* 마우스 이벤트가 부모에게 전달되도록 */
+      opacity: 0; transition: opacity 0.3s ease; z-index: 1; pointer-events: none;
     }
-    
-    /* 카드 호버 시 비디오 보이기 */
-    .card:hover .card-video {
-      opacity: 1;
-    }
+    .card:hover .card-video { opacity: 1; }
 
-    /* 텍스트 오버레이 */
     .overlay {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
       padding: 24px;
       background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
       color: white;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      z-index: 5; /* 비디오보다 위 */
-      height: 50%;
+      opacity: 0; transition: opacity 0.3s ease;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      z-index: 5; height: 50%;
     }
-    
     .card:hover .overlay { opacity: 1; }
 
     .card-tag {
-      font-size: 11px;
-      background: var(--accent);
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      align-self: flex-start;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      font-weight: 700;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      font-size: 11px; background: var(--accent); color: white;
+      padding: 4px 8px; border-radius: 4px; align-self: flex-start;
+      margin-bottom: 8px; text-transform: uppercase; font-weight: 700;
     }
-
     .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin: 0;
-      line-height: 1.4;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-      word-break: keep-all;
+      font-size: 16px; font-weight: 600; margin: 0; line-height: 1.4;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: keep-all;
     }
 
     /* =========================================
        5. MODAL (POPUP)
        ========================================= */
     .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-      padding: 20px;
-      backdrop-filter: blur(5px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 3000; /* 모달은 무조건 최상위 */
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+      padding: 20px; backdrop-filter: blur(5px);
     }
-    
     .modal.open { opacity: 1; pointer-events: auto; }
 
     .modal-content {
-      width: 100%;
-      max-width: 1000px;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      overflow: hidden;
+      width: 100%; max-width: 1000px; background: transparent;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
     }
 
     .modal-media-box {
-      width: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* 비디오 비율에 따라 유동적이지만 최대 높이 제한 */
-      max-height: 75vh; 
-      overflow: hidden;
+      width: 100%; background: #000;
+      display: flex; justify-content: center; align-items: center;
+      max-height: 75vh; overflow: hidden;
     }
-
-    .modal-media-box video,
-    .modal-media-box img {
-      max-width: 100%;
-      max-height: 75vh;
-      object-fit: contain;
-      display: block;
+    .modal-media-box video, .modal-media-box img {
+      max-width: 100%; max-height: 75vh; object-fit: contain; display: block;
     }
 
     .modal-info {
-      background: white;
-      width: 100%;
-      padding: 24px;
-      border-top: 1px solid #eee;
+      background: white; width: 100%; padding: 24px; border-top: 1px solid #eee;
     }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
-
-    .modal-title { 
-        font-size: 20px; 
-        font-weight: 700; 
-        margin: 0 0 8px 0; 
-        color: #111;
-    }
-    .modal-tag { 
-        font-size: 14px; 
-        color: var(--accent);
-        font-weight: 600;
-        text-transform: uppercase;
-    }
+    .modal-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .modal-title { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; color: #111; }
+    .modal-tag { font-size: 14px; color: var(--accent); font-weight: 600; text-transform: uppercase; }
 
     .close-btn {
-      position: absolute;
-      top: 15px; 
-      right: 15px;
-      color: rgba(255,255,255,0.8);
-      font-size: 24px;
-      background: rgba(0,0,0,0.5);
-      width: 40px; height: 40px;
+      position: absolute; top: 15px; right: 15px;
+      color: rgba(255,255,255,0.8); font-size: 24px;
+      background: rgba(0,0,0,0.5); width: 40px; height: 40px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      transition: 0.2s;
-      z-index: 10;
+      transition: 0.2s; z-index: 10;
     }
-    .close-btn:hover { background: rgba(0,0,0,0.8); color: white; transform: scale(1.1); }
 
     /* =========================================
-       6. MOBILE RESPONSIVE
+       6. MOBILE RESPONSIVE (문제 수정됨)
        ========================================= */
     .mobile-header { display: none; }
+    /* 사이드바 배경 어둡게 */
+    .sidebar-overlay {
+        display: none;
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        z-index: 1500; opacity: 0; transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    .sidebar-overlay.active {
+        opacity: 1; pointer-events: auto;
+    }
 
     @media (max-width: 768px) {
       body { flex-direction: column; }
       
+      /* 헤더를 fixed로 변경하여 최상단 고정 (z-index 1000) */
       .mobile-header {
         display: flex;
         align-items: center;
@@ -369,23 +297,51 @@
         padding: 15px 20px;
         background: var(--surface);
         border-bottom: 1px solid #eee;
-        position: sticky; top: 0; z-index: 100;
+        position: fixed; /* sticky 대신 fixed 사용 */
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+        height: 60px; /* 헤더 높이 명시 */
       }
 
+      /* 사이드바 설정 (z-index 2000으로 헤더보다 높게) */
       .sidebar {
         position: fixed;
-        left: -100%; /* 숨김 */
+        left: 0; top: 0; bottom: 0;
         width: 80%;
+        max-width: 300px;
         height: 100vh;
+        z-index: 2000; 
         box-shadow: 5px 0 20px rgba(0,0,0,0.1);
-        transition: left 0.3s ease;
+        
+        /* 닫혀있을 때 화면 밖으로 & 보이지 않게 처리 */
+        transform: translateX(-100%);
+        visibility: hidden; 
+        transition: transform 0.3s ease, visibility 0.3s;
       }
-      .sidebar.active { left: 0; }
+      
+      /* 사이드바 열림 상태 */
+      .sidebar.active { 
+        transform: translateX(0);
+        visibility: visible;
+      }
+      
+      /* 모바일에서는 사이드바 안에 닫기 버튼 표시 */
+      .sidebar-close { display: block; }
+      
+      /* 사이드바 배경 오버레이 활성화 */
+      .sidebar-overlay { display: block; }
 
-      .main { padding: 20px; }
+      /* 메인 컨텐츠: 헤더 높이(60px)만큼 띄우기 */
+      .main { 
+        padding: 20px; 
+        padding-top: 80px; /* 60px(헤더) + 20px(여유) */
+        height: auto; /* auto로 변경하여 body 스크롤 사용 */
+        min-height: 100vh;
+        overflow-y: visible;
+      }
+      
       .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
       .modal-content { width: 100%; max-height: 85vh; }
-      .close-btn { top: 10px; right: 10px; }
     }
   </style>
 </head>
@@ -393,42 +349,45 @@
 
   <header class="mobile-header">
     <div style="font-weight:800; font-size: 18px;">My Portfolio</div>
-    <button id="menuBtn" style="font-size:24px;">☰</button>
+    <button id="menuBtn" style="font-size:24px; padding: 5px;">☰</button>
   </header>
+  
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
   <aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">✕</button>
     <div class="brand">Portfolio</div>
 
     <div class="nav-group">
       <div class="nav-title">Video Works</div>
-      <a class="nav-item" onclick="filterProjects('youtube')">YouTube Portfolio</a>
+      <a class="nav-item" onclick="filterProjects('youtube'); closeSidebar()">YouTube Portfolio</a>
       
-      <a class="nav-item" onclick="toggleSubMenu('video-sub')">Video ▾</a>
+      <a class="nav-item" onclick="toggleSubMenu('video-sub')">Video Editing ▾</a>
       <div class="sub-nav" id="video-sub">
-        <a class="sub-item" onclick="filterProjects('motion & mood Film')">Motion Graphics</a>
-        <a class="sub-item" onclick="filterProjects('typography')">Typography</a>
-        <a class="sub-item" onclick="filterProjects('pp')">Premiere Pro</a>
-        <a class="sub-item" onclick="filterProjects('ae')">After Effects</a>
-        <a class="sub-item" onclick="filterProjects('ai video')">AI Video</a>
+        <a class="sub-item" onclick="filterProjects('motion & mood Film'); closeSidebar()">Motion Graphics</a>
+        <a class="sub-item" onclick="filterProjects('typography'); closeSidebar()">Typography</a>
+        <a class="sub-item" onclick="filterProjects('pp'); closeSidebar()">Premiere Pro</a>
+        <a class="sub-item" onclick="filterProjects('ae'); closeSidebar()">After Effects</a>
+        <a class="sub-item" onclick="filterProjects('ai video'); closeSidebar()">AI Video</a>
       </div>
     </div>
 
     <div class="nav-group">
       <div class="nav-title">Design Works</div>
-      <a class="nav-item" onclick="toggleSubMenu('design-sub')">Design ▾</a>
+      <a class="nav-item" onclick="toggleSubMenu('design-sub')">Design Tools ▾</a>
       <div class="sub-nav" id="design-sub">
-        <a class="sub-item" onclick="filterProjects('photoshop')">Photoshop</a>
-        <a class="sub-item" onclick="filterProjects('illustrator')">Illustrator</a>
-        <a class="sub-item" onclick="filterProjects('3d')">3D Design</a>
-        <a class="sub-item" onclick="filterProjects('ai design')">AI Design</a>
+        <a class="sub-item" onclick="filterProjects('photoshop'); closeSidebar()">Photoshop</a>
+        <a class="sub-item" onclick="filterProjects('illustrator'); closeSidebar()">Illustrator</a>
+        <a class="sub-item" onclick="filterProjects('3d'); closeSidebar()">3D Design</a>
+        <a class="sub-item" onclick="filterProjects('ai design'); closeSidebar()">AI Design</a>
       </div>
     </div>
 
     <div class="nav-group">
       <div class="nav-title">Others</div>
-      <a class="nav-item" onclick="filterProjects('art')">Art / Drawing</a>
-      <a class="nav-item" onclick="filterProjects('animation')">Animation</a>
-      <a class="nav-item" onclick="filterProjects('game')">Game</a>
+      <a class="nav-item" onclick="filterProjects('art'); closeSidebar()">Art / Drawing</a>
+      <a class="nav-item" onclick="filterProjects('animation'); closeSidebar()">Animation</a>
+      <a class="nav-item" onclick="filterProjects('game'); closeSidebar()">Game</a>
     </div>
 
   </aside>
@@ -479,7 +438,7 @@
       // ---------------- [Typo] ----------------
       { id: 10, type: 'video', cat: 'typography', src: 'video/typo/Typo1.mp4', title: '타이포그래픽 데모' },
 
-      // ---------------- [Premiere Pro (PP)] ----------------
+      // ---------------- [Premiere Pro] ----------------
       { id: 11, type: 'video', cat: 'pp', src: 'video/pp/vmfhwprxm.mp4', title: '일본어 영상' },
       { id: 12, type: 'video', cat: 'pp', src: 'video/pp/vjd.mp4', title: '쾅하는 타이틀' },
       { id: 13, type: 'video', cat: 'pp', src: 'video/pp/tite.mp4', title: '타이틀, 서브타이틀 모션' },
@@ -501,7 +460,7 @@
       { id: 29, type: 'video', cat: 'pp', src: 'video/pp/%EC%9D%8C%EC%95%85%EC%97%90%20%EB%A7%9E%EC%B6%B0%20track%20matte.mp4', title: '음악에 맞춰 Track Matte' },
       { id: 30, type: 'video', cat: 'pp', src: 'video/pp/%EC%9B%90%EC%95%88%EC%97%90%20%EC%98%81%EC%83%81.mp4', title: '원 안에 영상' },
       
-      // ---------------- [After Effects (AE)] ----------------
+      // ---------------- [After Effects] ----------------
       { id: 40, type: 'video', cat: 'ae', src: 'video/ae/Dorcpvkd.mp4', title: '액체가 터지는 효과' },
       { id: 41, type: 'video', cat: 'ae', src: 'video/ae/Rnehrdkffla.mp4', title: '구독, 좋아요, 알림' },
       { id: 42, type: 'video', cat: 'ae', src: 'video/ae/Xmfpsel.mp4', title: '트렌디한 도형 모션' },
@@ -515,10 +474,10 @@
       { id: 50, type: 'video', cat: 'ae', src: 'video/ae/3Dekfkeksms.mp4', title: '영상 3D 추적 효과' },
       { id: 51, type: 'video', cat: 'ae', src: 'video/ae/Rowlsms.mp4', title: '깨지는 효과 (Pixel Polly)' },
         
-      // ---------------- [AI Video (AV)] ----------------
+      // ---------------- [AI Video] ----------------
       { id: 52, type: 'video', cat: 'ai video', src: 'video/av/AI VIDEO 1B.mp4', title: '걷는 모션' },
 
-      // ---------------- [Photoshop (Design)] ----------------
+      // ---------------- [Photoshop] ----------------
       { id: 100, type: 'image', cat: 'photoshop', src: 'design/photoshop/1-2%20select%20.jpg', title: 'Select' },
       { id: 101, type: 'image', cat: 'photoshop', src: 'design/photoshop/1-2%20%EA%B0%80%EB%B0%9C.jpg', title: '가발 합성' },
       { id: 102, type: 'image', cat: 'photoshop', src: 'design/photoshop/1-2%20%EA%B5%AD%EA%B8%B0.jpg', title: '국기' },
@@ -530,7 +489,7 @@
       { id: 108, type: 'image', cat: 'photoshop', src: 'design/photoshop/12-22%20%EB%B8%8C%EB%9E%9C%EB%93%9C%20%EB%AA%A8%EB%93%9C%20%EB%A9%94%EC%9D%B4%ED%81%AC%EC%97%852.jpg', title: '메이크업 보정 2' },
       { id: 109, type: 'image', cat: 'photoshop', src: 'design/photoshop/12-26%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%A1%B0%EC%A0%95.jpg', title: '이미지 조정' },
 
-      // ---------------- [Illustrator (Design)] ----------------
+      // ---------------- [Illustrator] ----------------
       { id: 200, type: 'image', cat: 'illustrator', src: 'design/illustrator/1.jpg', title: '캐릭터 디자인' },
       { id: 201, type: 'image', cat: 'illustrator', src: 'design/illustrator/Artboard%201.png', title: '투게더 일러스트' },
       { id: 202, type: 'image', cat: 'illustrator', src: 'design/illustrator/%EA%B5%90%ED%86%B5%ED%91%9C%EC%A7%80%ED%8C%90%20%ED%94%BD%ED%86%A0%EA%B7%B8%EB%9E%A8.jpg', title: '픽토그램' },
@@ -540,14 +499,13 @@
       { id: 206, type: 'image', cat: 'illustrator', src: 'design/illustrator/%EC%95%BD%EB%8F%84.jpg', title: '약도 디자인' },
       { id: 207, type: 'image', cat: 'illustrator', src: 'design/illustrator/%EC%B9%98%EC%A6%88.jpg', title: '치즈 일러스트' },
         
-      // ---------------- [AI (Design)] ----------------
+      // ---------------- [AI Design] ----------------
       { id: 208, type: 'image', cat: 'ai design', src: 'design/ad/1225ai.jpg', title: '겨울 디자인' },
     ];
 
     /* =========================================
        LOGIC: 전역 상태 관리
        ========================================= */
-    // 중요: 사용자가 설정한 볼륨을 기억하는 변수 (기본값 0.5 = 50%)
     let userVolume = 0.5;
 
     const gallery = document.getElementById('gallery');
@@ -558,10 +516,8 @@
     const modalTagBox = document.getElementById('modalTag');
     let currentCategory = 'youtube'; 
 
-    // 현재 연도
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 초기 실행
     window.addEventListener('DOMContentLoaded', () => {
       filterProjects('youtube'); 
     });
@@ -578,18 +534,16 @@
     function filterProjects(category) {
       currentCategory = category;
 
-      // 1. 활성 탭 스타일 업데이트
+      // 탭 활성화
       document.querySelectorAll('.nav-item, .sub-item').forEach(el => el.classList.remove('active'));
       const activeBtn = document.querySelector(`[onclick="filterProjects('${category}')"]`);
+      // 서브메뉴 아이템인 경우 닫힘 방지를 위해 조건부 처리 가능하지만, 모바일은 닫히는게 나음
       if(activeBtn) activeBtn.classList.add('active');
 
-      // 2. 타이틀 변경
       pageTitle.textContent = category.toUpperCase().replace('-', ' ');
 
-      // 3. 필터링
       const filtered = db.filter(item => item.cat === category);
 
-      // 4. 그리드 생성
       gallery.innerHTML = '';
       if (filtered.length === 0) {
         gallery.innerHTML = `<div style="grid-column:1/-1; padding:60px; text-align:center; color:#999; font-size:14px;">준비 중이거나 비공개된 카테고리입니다.</div>`;
@@ -599,14 +553,10 @@
       filtered.forEach(item => {
         const card = document.createElement('article');
         card.className = 'card';
-        // 클릭 시 모달 열기
         card.onclick = () => openModal(item);
 
         let mediaHtml = '';
         if (item.type === 'video') {
-          // 비디오 카드의 경우: 
-          // 1. 호버시 보여줄 video (muted, loop)
-          // 2. 평소에 보여줄 썸네일(이미지 혹은 비디오의 첫 장면)
           mediaHtml = `
             <div class="media-wrap">
               <img class="thumb" src="assets/video-placeholder.png" alt="${item.title}" onerror="this.style.display='none'">
@@ -624,7 +574,6 @@
             </div>
           `;
         } else {
-          // 이미지 카드
           mediaHtml = `
             <div class="media-wrap">
               <img src="${item.src}" alt="${item.title}" loading="lazy">
@@ -635,17 +584,14 @@
             </div>
           `;
         }
-
         card.innerHTML = mediaHtml;
 
-        // 비디오 호버 이벤트: 호버시 재생, 떼면 정지/초기화
         if (item.type === 'video') {
           const vid = card.querySelector('.card-video');
           if (vid) {
             card.addEventListener('mouseenter', () => { 
-                // 미리보기는 항상 음소거(muted)여야 브라우저 정책상 자동재생이 잘 됨
                 vid.muted = true; 
-                vid.play().catch(e => console.log('Auto-play blocked', e)); 
+                vid.play().catch(e => {}); 
             });
             card.addEventListener('mouseleave', () => { 
                 vid.pause(); 
@@ -653,32 +599,26 @@
             });
           }
         }
-
         gallery.appendChild(card);
       });
     }
 
     /* =========================================
-       LOGIC: 모달 (상세보기 & 볼륨 제어)
+       LOGIC: 모달 (상세보기)
        ========================================= */
     function openModal(item) {
-      modalMedia.innerHTML = ''; // 초기화
+      modalMedia.innerHTML = ''; 
 
       if (item.type === 'video') {
         const video = document.createElement('video');
         video.src = item.src;
-        video.controls = true; // 컨트롤 바 표시
+        video.controls = true;
         video.autoplay = true;
-        
-        // [중요] 볼륨 설정 로직
-        // 1. 전역 변수 userVolume 값을 적용 (기본 0.5)
         video.volume = userVolume;
 
-        // 2. 사용자가 볼륨을 조절하면 그 값을 전역 변수에 저장
         video.onvolumechange = (e) => {
            userVolume = e.target.volume;
         };
-
         modalMedia.appendChild(video);
       } else {
         const img = document.createElement('img');
@@ -690,42 +630,57 @@
       modalTagBox.textContent = item.cat.toUpperCase();
       
       modal.classList.add('open');
-      document.body.style.overflow = 'hidden'; // 배경 스크롤 잠금
+      document.body.style.overflow = 'hidden'; 
     }
 
     function closeModal() {
       modal.classList.remove('open');
-      modalMedia.innerHTML = ''; // 영상 제거 (소리 멈춤)
-      document.body.style.overflow = ''; // 스크롤 잠금 해제
+      modalMedia.innerHTML = '';
+      document.body.style.overflow = ''; 
     }
 
-    // 모달 배경 클릭 시 닫기
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
-    // ESC 키로 닫기
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
 
     /* =========================================
-       LOGIC: 모바일 메뉴 토글
+       LOGIC: 모바일 메뉴 토글 (수정됨)
        ========================================= */
     const menuBtn = document.getElementById('menuBtn');
     const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    menuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
+    function openSidebar() {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // 사이드바 열림 시 배경 스크롤 방지
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = ''; 
+    }
+
+    // 메뉴 버튼 클릭 이벤트
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // 이벤트 버블링 방지
+        if (sidebar.classList.contains('active')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
     });
 
-    // 화면 크기 변경 시 사이드바 상태 초기화
+    // 화면 크기 변경 시 초기화
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
-        sidebar.classList.remove('active');
+        closeSidebar();
       }
     });
   </script>
 </body>
 </html>
-
-
